@@ -8,13 +8,13 @@
 
 Follow these steps to set up the **ros2_llm** package on your local machine:
 
-1. **Clone the repository**:
+1. **Clone the repository in the `/src/` directory of your workspace**:
 
     ```bash
     git clone https://github.com/scferro/ros2_llm.git
     ```
 
-2. **Navigate to the workspace**:
+2. **Navigate into the repo**:
 
     ```bash
     cd ros2_llm
