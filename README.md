@@ -4,16 +4,6 @@
 
 **ros2_llm** is a ROS 2 package that integrates Large Language Models (LLMs) and Vision-Language Models (VLMs) with ROS 2 systems. This package provides a framework for using local LLMs and VLMs within a ROS 2 environment through Ollama, enabling advanced natural language processing and AI-driven functionalities.
 
-## Prerequisites
-
-Before you begin, ensure you have met the following requirements:
-
-- **ROS 2 (Foxy, Galactic, Humble, or later)**
-- **Python 3.8+**
-- **Colcon build system** (for building ROS 2 packages)
-- **Git** (for cloning the repository)
-- **Ollama** (for running LLaMA 3.1, LLaVA-LLaMA3 models)
-
 ## Installation
 
 Follow these steps to set up the **ros2_llm** package on your local machine:
