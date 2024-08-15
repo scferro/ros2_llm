@@ -146,15 +146,15 @@ For the chat service, each call will build upon the previous conversation. Use t
 
 ## Customization
 
-You can customize the LLM and VLM behavior by modifying the model parameters in the ROS 2 node. The parameters `vlm_model` and `llm_model` can be set to different model names supported by Ollama.
+You can customize the LLM and VLM behavior by modifying the model arguements in the launch file. The arguements `vlm_model` and `llm_model` can be set to different model names supported by Ollama.
 
 To change the models, update the parameters when launching the node:
 
 ```bash
-ros2 run ros2_llm ros2_llm_node --ros-args -p vlm_model:=your_vlm_model -p llm_model:=your_llm_model
+ros2 launch ros2_llm ros2_llm.launch.py vlm_model:=your_vlm_model -p llm_model:=your_llm_model
 ```
 
-You can also change the default models used by editing the parameters in the `ros2_llm.launch.py` file.
+You can also change the default models used by editing the arguments in the `ros2_llm.launch.py` file.
 
 ## Contributing
 
