@@ -28,28 +28,18 @@ Follow these steps to set up the **ros2_llm** package on your local machine:
     rosdep install --from-paths src --ignore-src -r -y
     ```
 
-4. **Install Ollama**:
-
-    Install Ollama by following the official installation guide: [Ollama Installation](https://ollama.com/download)
-
-5. **Download and set up models with Ollama**:
-
-    Download the LLaMA 3.1 and LLaVA-LLaMA3 models:
-
-    ```bash
-    ollama pull llama3
-    ollama pull llava-llama3
-    ```
-
-6. **Install Ollama Python SDK**:
+4. **Install Ollama, download models, and install Ollama Python SDK**:
 
     Install the Ollama Python SDK to interact with the models programmatically:
 
     ```bash
+    curl -fsSL https://ollama.com/install.sh | sh
+    ollama pull llama3
+    ollama pull llava-llama3
     pip install ollama
     ```
 
-7. **Build the package**:
+5. **Build the package**:
 
     Use Colcon to build the package:
 
@@ -57,7 +47,7 @@ Follow these steps to set up the **ros2_llm** package on your local machine:
     colcon build --packages-select ros2_llm
     ```
 
-8. **Source the setup file**:
+6. **Source the setup file**:
 
     Source the setup file to overlay the newly built package into your ROS 2 environment:
 
@@ -65,10 +55,18 @@ Follow these steps to set up the **ros2_llm** package on your local machine:
     source install/setup.bash
     ```
 
+## Launching the node
+
+    To launch the `ros2_llm_node`, use the following command:
+
+    ```bash
+    ros2 launch ros2_llm ros2_llm.launch.py
+    ```
+
     This command will start the node that integrates the LLM and VLM models with your ROS 2 system. The node will be configured to use the `llava-llama3` model for vision-language processing and `llama3.1` for text-based processing by default. 
 
     The node logs will confirm the models in use:
-    
+
     ```
     [INFO] [ros2_llm_node]: ROS2 LLM Node is ready.
     [INFO] [ros2_llm_node]: VLM Model: llava-llama3
