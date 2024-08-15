@@ -3,7 +3,7 @@ from rclpy.node import Node
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from ros2_llm_interfaces.srv import InferenceService
-from ollama import generate
+from ollama import generate, chat
 import cv2
 
 class ROS2LLMNode(Node):
@@ -21,8 +21,12 @@ class ROS2LLMNode(Node):
         # Create services
         self.vlm_srv = self.create_service(InferenceService, 'query_vlm', self.query_vlm_callback)
         self.llm_srv = self.create_service(InferenceService, 'query_llm', self.query_llm_callback)
+        self.chat_srv = self.create_service(InferenceService, 'chat_llm', self.chat_llm_callback)
+        self.reset_srv = self.create_service(InferenceService, 'reset_chat', self.reset_chat_callback)
         
         self.bridge = CvBridge()
+        self.chat_messages = []
+        
         self.get_logger().info('ROS2 LLM Node is ready.')
         self.get_logger().info(f'VLM Model: {self.vlm_model}')
         self.get_logger().info(f'LLM Model: {self.llm_model}')
@@ -60,6 +64,27 @@ class ROS2LLMNode(Node):
             full_response += ollama_response['response']
         
         response.response = full_response
+        return response
+
+    def chat_llm_callback(self, request, response):
+        self.get_logger().info('Received a chat LLM request')
+        
+        user_message = request.prompt
+        self.chat_messages.append({'role': 'user', 'content': user_message})
+        
+        # Use the Ollama chat function with the configured LLM model
+        chat_response = chat(self.llm_model, messages=self.chat_messages)
+        ai_message = chat_response['message']['content']
+        
+        self.chat_messages.append({'role': 'assistant', 'content': ai_message})
+        
+        response.response = ai_message
+        return response
+
+    def reset_chat_callback(self, request, response):
+        self.get_logger().info('Received a reset chat request')
+        self.chat_messages = []
+        response.response = "Chat history has been reset."
         return response
 
 def main(args=None):

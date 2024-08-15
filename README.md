@@ -114,9 +114,35 @@ Once the package is running, you can interact with the LLM and VLM through the p
     ros2 service call /query_llm ros2_llm_interfaces/srv/InferenceService "{prompt: 'What is the capital of France?'}"
     ```
 
-3. **Check service response**:
+3. **Use the Chat LLM service**:
+
+    You can engage in a continuous conversation with the LLM using the chat service. This service maintains conversation history between calls:
+
+    ```bash
+    ros2 service call /chat_llm ros2_llm_interfaces/srv/InferenceService "{prompt: 'your message here'}"
+    ```
+
+    Example command:
+    
+    ```bash
+    ros2 service call /chat_llm ros2_llm_interfaces/srv/InferenceService "{prompt: 'Hello, can you tell me about ROS 2?'}"
+    ```
+
+4. **Reset the Chat History**:
+
+    To start a new conversation and clear the chat history, use the reset service:
+
+    ```bash
+    ros2 service call /reset_chat ros2_llm_interfaces/srv/InferenceService "{prompt: ''}"
+    ```
+
+    Note: The prompt field is ignored for this service, but must be included due to the service definition.
+
+5. **Check service response**:
 
     The response from the LLM or VLM will be displayed in the terminal, showing the model's output based on the provided input.
+
+For the chat service, each call will build upon the previous conversation. Use the reset service when you want to start a new conversation topic or clear the chat history.
 
 ## Customization
 
@@ -139,3 +165,4 @@ Contributions to this project are welcome! If you encounter any issues or have s
 This project is licensed under the MIT License. 
 
 ---
+
