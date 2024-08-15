@@ -57,21 +57,21 @@ Follow these steps to set up the **ros2_llm** package on your local machine:
 
 ## Launching the node
 
-    To launch the `ros2_llm_node`, use the following command:
+To launch the `ros2_llm_node`, use the following command:
 
-    ```bash
-    ros2 launch ros2_llm ros2_llm.launch.py
-    ```
+```bash
+ros2 launch ros2_llm ros2_llm.launch.py
+```
 
-    This command will start the node that integrates the LLM and VLM models with your ROS 2 system. The node will be configured to use the `llava-llama3` model for vision-language processing and `llama3.1` for text-based processing by default. 
+This command will start the node that integrates the LLM and VLM models with your ROS 2 system. The node will be configured to use the `llava-llama3` model for vision-language processing and `llama3.1` for text-based processing by default. 
 
-    The node logs will confirm the models in use:
+The node logs will confirm the models in use:
 
-    ```
-    [INFO] [ros2_llm_node]: ROS2 LLM Node is ready.
-    [INFO] [ros2_llm_node]: VLM Model: llava-llama3
-    [INFO] [ros2_llm_node]: LLM Model: llama3.1
-    ```
+```
+[INFO] [ros2_llm_node]: ROS2 LLM Node is ready.
+[INFO] [ros2_llm_node]: VLM Model: llava-llama3
+[INFO] [ros2_llm_node]: LLM Model: llama3.1
+```
 
 ## Using the Services
 
