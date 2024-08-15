@@ -24,6 +24,7 @@ setup(
     entry_points={
         'console_scripts': [
             "ros2_llm_node = ros2_llm.ros2_llm_node:main",
+            "webcam_vlm_node = ros2_llm.webcam_vlm_node:main",
         ],
     },
     package_data={

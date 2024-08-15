@@ -11,7 +11,7 @@ class ROS2LLMNode(Node):
         super().__init__('ros2_llm_node')
         
         # Declare parameters for model names
-        self.declare_parameter('vlm_model', 'llava-llama3')
+        self.declare_parameter('vlm_model', 'llava')
         self.declare_parameter('llm_model', 'llama3.1')
         
         # Get parameter values
@@ -44,12 +44,12 @@ class ROS2LLMNode(Node):
             _, img_encoded = cv2.imencode('.jpg', cv_image)
             image_data = img_encoded.tobytes()
             image_data_list.append(image_data)
-        
+
         # Use the Ollama generate function with the configured VLM model
         full_response = ""
         for ollama_response in generate(self.vlm_model, prompt, images=image_data_list, stream=True):
             full_response += ollama_response['response']
-        
+
         response.response = full_response
         return response
 
