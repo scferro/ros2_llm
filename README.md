@@ -121,6 +121,9 @@ To change the models, update the parameters when launching the node:
 
 ```bash
 ros2 run ros2_llm ros2_llm_node --ros-args -p vlm_model:=your_vlm_model -p llm_model:=your_llm_model
+```
+
+You can also change the default models used by editing the parameters in the `ros2_llm.launch.py` file.
 
 ## Contributing
 
