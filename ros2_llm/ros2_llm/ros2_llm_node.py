@@ -1,3 +1,20 @@
+"""
+ROS2 LLM Node for integrating Large Language Models and Vision Language Models.
+
+This node provides services for querying Vision Language Models (VLM) and
+Large Language Models (LLM), as well as maintaining a chat session with an LLM.
+
+SERVICES:
+    + /query_vlm (InferenceService) - Query the Vision Language Model with images and text.
+    + /query_llm (InferenceService) - Query the Language Model with text.
+    + /chat_llm (InferenceService) - Interact with the Language Model in a chat session.
+    + /reset_chat (InferenceService) - Reset the chat history.
+
+PARAMETERS:
+    + vlm_model (string) - Name of the Vision Language Model to use.
+    + llm_model (string) - Name of the Language Model to use.
+"""
+
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
@@ -8,6 +25,7 @@ import cv2
 
 class ROS2LLMNode(Node):
     def __init__(self):
+        """Initialize the ROS2 LLM Node."""
         super().__init__('ros2_llm_node')
         
         # Declare parameters for model names
@@ -32,6 +50,16 @@ class ROS2LLMNode(Node):
         self.get_logger().info(f'LLM Model: {self.llm_model}')
 
     def query_vlm_callback(self, request, response):
+        """
+        Service callback for querying the Vision Language Model.
+
+        Args:
+            request (InferenceService.Request): The service request containing prompt and images.
+            response (InferenceService.Response): The service response to be filled.
+
+        Returns:
+            InferenceService.Response: The response containing the VLM's output.
+        """
         self.get_logger().info('Received a VLM request')
         
         prompt = request.prompt
@@ -54,6 +82,16 @@ class ROS2LLMNode(Node):
         return response
 
     def query_llm_callback(self, request, response):
+        """
+        Service callback for querying the Language Model.
+
+        Args:
+            request (InferenceService.Request): The service request containing the prompt.
+            response (InferenceService.Response): The service response to be filled.
+
+        Returns:
+            InferenceService.Response: The response containing the LLM's output.
+        """
         self.get_logger().info('Received an LLM request')
         
         prompt = request.prompt
@@ -67,6 +105,16 @@ class ROS2LLMNode(Node):
         return response
 
     def chat_llm_callback(self, request, response):
+        """
+        Service callback for chatting with the Language Model.
+
+        Args:
+            request (InferenceService.Request): The service request containing the user's message.
+            response (InferenceService.Response): The service response to be filled.
+
+        Returns:
+            InferenceService.Response: The response containing the LLM's reply.
+        """
         self.get_logger().info('Received a chat LLM request')
         
         user_message = request.prompt
@@ -82,12 +130,28 @@ class ROS2LLMNode(Node):
         return response
 
     def reset_chat_callback(self, request, response):
+        """
+        Service callback for resetting the chat history.
+
+        Args:
+            request (InferenceService.Request): The service request (unused).
+            response (InferenceService.Response): The service response to be filled.
+
+        Returns:
+            InferenceService.Response: The response confirming the chat reset.
+        """
         self.get_logger().info('Received a reset chat request')
         self.chat_messages = []
         response.response = "Chat history has been reset."
         return response
 
 def main(args=None):
+    """
+    Main function to initialize and run the ROS2 LLM Node.
+
+    Args:
+        args: Command-line arguments (if any).
+    """
     rclpy.init(args=args)
     ros2_llm_node = ROS2LLMNode()
     rclpy.spin(ros2_llm_node)

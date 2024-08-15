@@ -1,3 +1,24 @@
+"""
+WebcamVLMNode: A ROS2 node for capturing webcam frames and processing them with a Vision Language Model (VLM).
+
+This node captures frames from a webcam, publishes them as ROS2 Image messages,
+and provides a service to describe the current webcam frame using a VLM.
+
+PUBLISHERS:
+    + /webcam (sensor_msgs/Image) - Publishes webcam frames.
+
+SUBSCRIBERS:
+    + /describe_webcam (std_msgs/Empty) - Triggers VLM inference on the current webcam frame.
+
+SERVICE CLIENTS:
+    + query_vlm (InferenceService) - Client for the VLM service.
+
+PARAMETERS:
+    + camera_index (int) - Index of the camera to use (default: 0).
+    + frame_rate (float) - Frame rate for publishing webcam images (default: 30.0).
+    + vlm_prompt (string) - Prompt to use for the VLM (default: 'Describe what you see in this image.').
+"""
+
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
@@ -8,6 +29,7 @@ import cv2
 
 class WebcamVLMNode(Node):
     def __init__(self):
+        """Initialize the WebcamVLMNode."""
         super().__init__('webcam_vlm_node')
         
         # Declare parameters
@@ -49,12 +71,21 @@ class WebcamVLMNode(Node):
         self.get_logger().info('Webcam VLM Node is ready.')
     
     def publish_webcam_frame(self):
+        """Capture and publish a frame from the webcam."""
         ret, frame = self.cap.read()
         if ret:
             msg = self.bridge.cv2_to_imgmsg(frame, encoding='bgr8')
             self.webcam_pub.publish(msg)
     
     def describe_webcam_callback(self, msg):
+        """
+        Callback function for the /describe_webcam topic.
+        
+        This function captures the current webcam frame and sends it to the VLM service for description.
+
+        Args:
+            msg (Empty): An empty message triggering the callback.
+        """
         self.get_logger().info('Received a describe webcam request')
         
         # Capture the latest frame
@@ -88,6 +119,12 @@ class WebcamVLMNode(Node):
         future.add_done_callback(self.vlm_response_callback)
     
     def vlm_response_callback(self, future):
+        """
+        Callback function for handling the VLM service response.
+
+        Args:
+            future (rclpy.Future): The future object containing the service response.
+        """
         try:
             vlm_response = future.result()
             self.get_logger().info(f'VLM Description: {vlm_response.response}')
@@ -95,10 +132,21 @@ class WebcamVLMNode(Node):
             self.get_logger().error(f'Failed to get VLM response: {str(e)}')
     
     def destroy_node(self):
+        """
+        Clean up resources when the node is destroyed.
+        
+        This method ensures that the webcam is properly released.
+        """
         self.cap.release()
         super().destroy_node()
 
 def main(args=None):
+    """
+    The main function to run the WebcamVLMNode.
+
+    Args:
+        args: Command-line arguments (if any).
+    """
     rclpy.init(args=args)
     webcam_vlm_node = WebcamVLMNode()
     rclpy.spin(webcam_vlm_node)
