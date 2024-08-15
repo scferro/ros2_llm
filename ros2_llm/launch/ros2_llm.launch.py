@@ -19,7 +19,7 @@ def generate_launch_description():
 
     # Create the node
     ros2_llm_node = Node(
-        package='your_package_name',  # Replace with your actual package name
+        package='ros2_llm',  # Replace with your actual package name
         executable='ros2_llm_node',
         name='ros2_llm_node',
         output='screen',
