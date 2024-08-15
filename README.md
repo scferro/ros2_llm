@@ -6,7 +6,7 @@
 
 The default models used are:
 
-- **[LLaMA 3.1](https://ollama.com/llama3.1)** for text-based language processing (LLM).
+- **[LLaMA 3.1 8B](https://ollama.com/llama3.1)** for text-based language processing (LLM).
 - **[LLaVA-LLaMA3](https://ollama.com/llava-llama3)** for vision-language processing (VLM).
 
 ## Installation
